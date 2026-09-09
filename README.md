@@ -4,9 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Business Name Generator</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{
@@ -146,32 +144,24 @@ body{padding:18px}
 }
 </style>
 </head>
-
 <body>
-
 <div class="container">
-
 <div class="topbar">
 <div class="badge">💡 Turn your idea into a memorable brand</div>
 </div>
-
 <div class="grid">
-
 <div>
 <label>Your Name</label>
 <input id="owner" placeholder="Mohit">
 </div>
-
 <div>
 <label>Website (Optional)</label>
 <input id="website" placeholder="roadtotop.com">
 </div>
-
 <div class="full">
 <label>What's your business idea?</label>
 <textarea id="idea" placeholder="AI SEO Agency helping businesses rank on Google"></textarea>
 </div>
-
 <div>
 <div class="section-title">Brand Tone</div>
 <div class="pills" id="tones">
@@ -183,48 +173,35 @@ body{padding:18px}
 <div class="pill">Playful</div>
 </div>
 </div>
-
 <div>
 <label>Target Audience</label>
 <input id="audience" placeholder="Founders, SMEs, Startups">
 </div>
-
 <div>
 <label>Industry</label>
 <input id="industry" placeholder="SEO, SaaS, Fashion">
 </div>
-
 <div>
 <label>Location</label>
 <input id="location" placeholder="India / Global">
 </div>
-
 <div class="full">
 <label>Other Preferences</label>
 <input id="pref" placeholder="Short names, .com friendly, premium">
 </div>
-
 </div>
-
 <button onclick="generateNames()">Generate 50 Business Names →</button>
-
 <div class="results" id="results">
-
 <h2>50 Business Name Ideas</h2>
-
 <div class="tabs">
 <div class="tab active" onclick="showCategory('brandable',this)">Brandable</div>
 <div class="tab" onclick="showCategory('premium',this)">Premium</div>
 <div class="tab" onclick="showCategory('modern',this)">Modern</div>
 <div class="tab" onclick="showCategory('ai',this)">AI First</div>
 </div>
-
 <div class="names" id="nameList"></div>
-
 </div>
-
 </div>
-
 <script>
 // ===== Tone selection (max 2) =====
 document.querySelectorAll('#tones .pill').forEach(p=>{
@@ -238,9 +215,7 @@ p.classList.add('active');
 }
 }
 });
-
 let generated={};
-
 // ===== Dictionaries =====
 const industries={
 seo:{
@@ -260,11 +235,9 @@ roots:["Bean","Roast","Brew","Mocha","Cup","Espresso"],
 brand:["House","Roastery","Corner","Cafe","Co"]
 }
 };
-
 const premiumWords=["Prime","Elite","Prestige","Maison","Royal","Aure","Elevate","Signature"];
 const modernWords=["Neo","Nova","Opti","Hyper","Pixel","Quantum","Smart","Shift"];
 const aiWords=["Neural","Cortex","Vector","AI","Logic","Intelli","Data","Vision"];
-
 function detectIndustry(text){
 text=text.toLowerCase();
 if(text.includes("seo")||text.includes("google")||text.includes("ranking")) return "seo";
@@ -273,11 +246,9 @@ if(text.includes("fashion")||text.includes("clothing")) return "fashion";
 if(text.includes("cafe")||text.includes("coffee")) return "cafe";
 return "seo";
 }
-
 function pick(arr){
 return arr[Math.floor(Math.random()*arr.length)];
 }
-
 function uniqueNames(builder){
 const set=new Set();
 while(set.size<50){
@@ -285,50 +256,37 @@ set.add(builder());
 }
 return [...set];
 }
-
 function generateNames(){
-
 const idea=document.getElementById("idea").value;
 const industryInput=document.getElementById("industry").value;
 const owner=document.getElementById("owner").value.trim();
 const location=document.getElementById("location").value.trim();
-
 const key=detectIndustry(idea+" "+industryInput);
 const dict=industries[key];
-
 generated.brandable=uniqueNames(()=>{
 return pick(dict.roots)+pick(dict.brand);
 });
-
 generated.premium=uniqueNames(()=>{
 return pick(premiumWords)+pick(dict.roots);
 });
-
 generated.modern=uniqueNames(()=>{
 return pick(modernWords)+pick(dict.roots);
 });
-
 generated.ai=uniqueNames(()=>{
 let base=pick(aiWords)+pick(dict.roots);
 if(location && Math.random()>.7) base+=location.replace(/\s/g,'');
 if(owner && Math.random()>.8) base=owner+pick(dict.roots);
 return base;
 });
-
 showCategory('brandable',document.querySelector('.tab'));
-
 document.getElementById("results").style.display="block";
 window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});
 }
-
 function showCategory(cat,el){
-
 document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
 el.classList.add('active');
-
 const wrap=document.getElementById("nameList");
 wrap.innerHTML="";
-
 generated[cat].forEach(name=>{
 const card=document.createElement("div");
 card.className="name-card";
@@ -336,9 +294,7 @@ card.innerHTML=`<span>${name}</span><span class="copy">📋</span>`;
 card.onclick=()=>navigator.clipboard.writeText(name);
 wrap.appendChild(card);
 });
-
 }
 </script>
-
 </body>
 </html>
