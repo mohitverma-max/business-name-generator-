@@ -7,294 +7,472 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{
-font-family:'Inter',sans-serif;
-background:#E8F7F1;
-padding:32px;
-color:#14332B;
-}
-.container{
-max-width:1320px;
-margin:auto;
-background:rgba(255,255,255,.82);
-backdrop-filter:blur(18px);
-border-radius:26px;
-padding:30px;
-box-shadow:0 18px 45px rgba(0,0,0,.06);
-}
-.topbar{
-display:flex;
-justify-content:flex-end;
-margin-bottom:24px;
-}
-.badge{
-background:#DDF7EC;
-padding:12px 18px;
-border-radius:999px;
-font-weight:600;
-color:#0F5132;
-}
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
-}
+:root{--green:#22C58B;--green-d:#15a172;--ink:#14332B;--muted:#5b716a;--line:#D8E8E2;--soft:#F3FBF8}
+body{font-family:'Inter',sans-serif;background:#E8F7F1;padding:32px;color:var(--ink)}
+.container{max-width:1320px;margin:auto;background:rgba(255,255,255,.82);backdrop-filter:blur(18px);border-radius:26px;padding:30px;box-shadow:0 18px 45px rgba(0,0,0,.06)}
+.topbar{display:flex;justify-content:flex-end;margin-bottom:24px}
+.badge{background:#DDF7EC;padding:12px 18px;border-radius:999px;font-weight:600;color:#0F5132}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 .full{grid-column:1/-1}
-label{
-display:block;
-font-size:13px;
-font-weight:700;
-margin-bottom:8px;
-}
-input,textarea{
-width:100%;
-padding:15px;
-border-radius:14px;
-border:1px solid #D8E8E2;
-font-size:14px;
-outline:none;
-background:#fff;
-}
+label{display:block;font-size:13px;font-weight:700;margin-bottom:8px}
+input,textarea{width:100%;padding:15px;border-radius:14px;border:1px solid var(--line);font:inherit;font-size:14px;outline:none;background:#fff;color:var(--ink)}
+input:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(34,197,139,.15)}
 textarea{height:120px;resize:none}
-.section-title{
-font-size:20px;
-font-weight:700;
-margin-bottom:12px;
-}
-.pills{
-display:flex;
-flex-wrap:wrap;
-gap:10px;
-}
-.pill{
-padding:11px 16px;
-border-radius:999px;
-border:1px solid #D8E8E2;
-cursor:pointer;
-background:white;
-}
-.pill.active{
-background:#22C58B;
-color:white;
-border-color:#22C58B;
-}
-button{
-margin-top:26px;
-width:100%;
-padding:18px;
-border:none;
-border-radius:999px;
-background:linear-gradient(90deg,#34D399,#2DD4BF);
-font-size:20px;
-font-weight:800;
-cursor:pointer;
-color:#073B2F;
-}
-.results{
-margin-top:30px;
-display:none;
-}
-.results h2{
-font-size:24px;
-margin-bottom:16px;
-}
-.tabs{
-display:flex;
-gap:10px;
-margin-bottom:18px;
-flex-wrap:wrap;
-}
-.tab{
-padding:10px 16px;
-border-radius:999px;
-border:1px solid #D8E8E2;
-cursor:pointer;
-background:#fff;
-font-weight:600;
-}
-.tab.active{
-background:#22C58B;
-color:#fff;
-border-color:#22C58B;
-}
-.names{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-}
-.name-card{
-background:white;
-border:1px solid #E5EFEB;
-padding:16px;
-border-radius:14px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-font-weight:700;
-}
-.copy{
-cursor:pointer;
-opacity:.6;
-}
-.copy:hover{opacity:1}
+.section-title{font-size:13px;font-weight:700;margin-bottom:8px}
+.hint{font-weight:500;color:var(--muted);font-size:12px}
+.pills{display:flex;flex-wrap:wrap;gap:10px}
+.pill{padding:11px 16px;border-radius:999px;border:1px solid var(--line);cursor:pointer;background:#fff;user-select:none;transition:.15s}
+.pill:hover{border-color:var(--green)}
+.pill.active{background:var(--green);color:#fff;border-color:var(--green)}
+.gen-btn{margin-top:26px;width:100%;padding:18px;border:none;border-radius:999px;background:linear-gradient(90deg,#34D399,#2DD4BF);font:inherit;font-size:20px;font-weight:800;cursor:pointer;color:#073B2F;transition:transform .15s,box-shadow .15s}
+.gen-btn:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(45,212,191,.35)}
+.error{color:#c0392b;font-size:14px;font-weight:600;margin-top:10px;display:none}
+
+/* ===== Results ===== */
+.results{margin-top:34px;display:none}
+.res-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.res-head h2{font-size:26px;line-height:1.2}
+.res-head h2 span{color:var(--green-d)}
+.res-sub{color:var(--muted);font-size:14px;margin-top:6px}
+.res-actions{display:flex;gap:10px;flex-wrap:wrap}
+.ghost{padding:11px 16px;border-radius:999px;border:1px solid var(--line);background:#fff;font:inherit;font-weight:700;font-size:14px;cursor:pointer;color:var(--ink);display:inline-flex;align-items:center;gap:8px}
+.ghost:hover{border-color:var(--green);color:var(--green-d)}
+.tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.tab{padding:9px 15px;border-radius:999px;border:1px solid var(--line);cursor:pointer;background:#fff;font-weight:600;font-size:14px;display:inline-flex;gap:8px;align-items:center}
+.tab em{font-style:normal;font-size:12px;background:var(--soft);color:var(--muted);padding:2px 8px;border-radius:99px}
+.tab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tab.active em{background:rgba(255,255,255,.18);color:#fff}
+
+.names{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
+.card{position:relative;background:#fff;border:1px solid #E5EFEB;border-radius:18px;padding:18px;display:flex;gap:14px;align-items:flex-start;transition:transform .18s,box-shadow .18s,border-color .18s;animation:pop .35s both}
+.card:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(20,51,43,.10);border-color:#bfe9d8}
+@keyframes pop{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
+.logo{flex:0 0 52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:20px;letter-spacing:-.02em;box-shadow:inset 0 -8px 16px rgba(0,0,0,.12)}
+.info{flex:1;min-width:0}
+.nm{font-size:20px;font-weight:800;letter-spacing:-.02em;line-height:1.2;word-break:break-word}
+.nm .b{color:var(--green-d)}
+.meta{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}
+.tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:3px 8px;border-radius:6px;background:var(--soft);color:var(--muted)}
+.stars{font-size:12px;color:#f5b301;letter-spacing:1px}
+.stars i{font-style:normal;color:#dfe7e4}
+.domain{margin-top:10px;font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.domain a{color:var(--green-d);font-weight:700;text-decoration:none}
+.domain a:hover{text-decoration:underline}
+.acts{display:flex;flex-direction:column;gap:6px}
+.icon{width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:.15s}
+.icon:hover{color:var(--green-d);border-color:var(--green)}
+.icon.on{color:#e0245e;border-color:#f6c1d1;background:#fff5f8}
+.icon svg{width:17px;height:17px}
+
+.shortlist{margin-top:24px;padding:18px;border-radius:18px;background:linear-gradient(135deg,#14332B,#1d4d40);color:#fff;display:none}
+.shortlist h3{font-size:16px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:rgba(255,255,255,.12);padding:8px 12px;border-radius:999px;font-weight:700;font-size:14px;display:inline-flex;gap:8px;align-items:center}
+.chip button{background:none;border:none;color:#9fe7cb;cursor:pointer;font-size:16px;line-height:1}
+.shortlist .ghost{background:#22C58B;border-color:#22C58B;color:#073B2F;padding:8px 14px;font-size:13px}
+.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:10px 16px;border-radius:10px;font-weight:600;font-size:14px;opacity:0;transition:.25s;pointer-events:none;z-index:99}
+.toast.show{opacity:1;transform:translateX(-50%)}
+.empty{color:var(--muted);padding:20px 0}
 @media(max-width:900px){
 body{padding:18px}
-.grid,.names{grid-template-columns:1fr}
+.container{padding:20px}
+.grid{grid-template-columns:1fr}
 .topbar{justify-content:center}
+.res-head h2{font-size:22px}
 }
 </style>
 </head>
 <body>
 <div class="container">
-<div class="topbar">
-<div class="badge">💡 Turn your idea into a memorable brand</div>
-</div>
+<div class="topbar"><div class="badge">💡 Turn your idea into a memorable brand</div></div>
+
 <div class="grid">
+<div><label for="owner">Your Name</label><input id="owner" placeholder="Mohit"></div>
+<div><label for="website">Website (Optional)</label><input id="website" placeholder="roadtotop.com"></div>
+<div class="full"><label for="idea">What's your business idea?</label><textarea id="idea" placeholder="e.g. Artisan bakery selling sourdough and cakes in Pune"></textarea></div>
 <div>
-<label>Your Name</label>
-<input id="owner" placeholder="Mohit">
-</div>
-<div>
-<label>Website (Optional)</label>
-<input id="website" placeholder="roadtotop.com">
-</div>
-<div class="full">
-<label>What's your business idea?</label>
-<textarea id="idea" placeholder="AI SEO Agency helping businesses rank on Google"></textarea>
-</div>
-<div>
-<div class="section-title">Brand Tone</div>
+<div class="section-title">Brand Tone <span class="hint">(pick up to 2)</span></div>
 <div class="pills" id="tones">
-<div class="pill active">Bold</div>
-<div class="pill">Luxury</div>
-<div class="pill">Minimal</div>
-<div class="pill">Techy</div>
-<div class="pill">Friendly</div>
-<div class="pill">Playful</div>
+<div class="pill active">Bold</div><div class="pill">Luxury</div><div class="pill">Minimal</div>
+<div class="pill">Techy</div><div class="pill">Friendly</div><div class="pill">Playful</div>
 </div>
 </div>
-<div>
-<label>Target Audience</label>
-<input id="audience" placeholder="Founders, SMEs, Startups">
+<div><label for="audience">Target Audience</label><input id="audience" placeholder="Founders, families, students..."></div>
+<div><label for="industry">Industry</label><input id="industry" placeholder="Bakery, Fitness, SaaS, Fashion..."></div>
+<div><label for="location">Location</label><input id="location" placeholder="Pune / India / Global"></div>
+<div class="full"><label for="pref">Other Preferences</label><input id="pref" placeholder="Short names, .com friendly, premium"></div>
 </div>
-<div>
-<label>Industry</label>
-<input id="industry" placeholder="SEO, SaaS, Fashion">
-</div>
-<div>
-<label>Location</label>
-<input id="location" placeholder="India / Global">
-</div>
-<div class="full">
-<label>Other Preferences</label>
-<input id="pref" placeholder="Short names, .com friendly, premium">
-</div>
-</div>
-<button onclick="generateNames()">Generate 50 Business Names →</button>
+
+<button class="gen-btn" id="genBtn">Generate 50 Business Names →</button>
+<div class="error" id="err">Please describe your business idea or industry first.</div>
+
 <div class="results" id="results">
-<h2>50 Business Name Ideas</h2>
-<div class="tabs">
-<div class="tab active" onclick="showCategory('brandable',this)">Brandable</div>
-<div class="tab" onclick="showCategory('premium',this)">Premium</div>
-<div class="tab" onclick="showCategory('modern',this)">Modern</div>
-<div class="tab" onclick="showCategory('ai',this)">AI First</div>
+<div class="res-head">
+<div>
+<h2>50 name ideas for <span id="nicheLabel">your business</span></h2>
+<div class="res-sub">Click ♥ to shortlist. Domains are suggestions: check availability before you decide.</div>
 </div>
+<div class="res-actions">
+<button class="ghost" id="moreBtn" type="button">↻ Generate new set</button>
+<button class="ghost" id="copyAllBtn" type="button">Copy all</button>
+</div>
+</div>
+<div class="tabs" id="tabs"></div>
 <div class="names" id="nameList"></div>
+<div class="shortlist" id="shortlist">
+<h3><span>♥ Your shortlist</span><button class="ghost" id="copyShort" type="button">Copy shortlist</button></h3>
+<div class="chips" id="chips"></div>
 </div>
 </div>
+</div>
+<div class="toast" id="toast"></div>
+
 <script>
-// ===== Tone selection (max 2) =====
-document.querySelectorAll('#tones .pill').forEach(p=>{
-p.onclick=()=>{
-if(p.classList.contains('active')){
-p.classList.remove('active');
-return;
-}
-if(document.querySelectorAll('#tones .active').length<2){
-p.classList.add('active');
-}
-}
+(function(){
+'use strict';
+/* ================= Tone selection (max 2) ================= */
+document.querySelectorAll('#tones .pill').forEach(function(p){
+	p.onclick=function(){
+		if(p.classList.contains('active')){p.classList.remove('active');return;}
+		if(document.querySelectorAll('#tones .active').length<2) p.classList.add('active');
+		else toast('You can pick up to 2 tones');
+	};
 });
-let generated={};
-// ===== Dictionaries =====
-const industries={
-seo:{
-roots:["Rank","Search","SERP","Crawl","Index","Organic","Authority","Topical","Growth","Visibility","Keyword","Traffic"],
-brand:["Pilot","Forge","Mint","Peak","Flow","Works","Studio","Axis","Nest","Point","Labs","Prime"]
-},
-saas:{
-roots:["Cloud","Logic","Sync","Stack","Scale","Flow","Core","Launch","Orbit","Nova"],
-brand:["OS","Labs","Works","Pilot","Base","Hub","Suite","One","AI","Edge"]
-},
-fashion:{
-roots:["Aura","Mode","Silk","Thread","Loom","Velvet","Muse"],
-brand:["Studio","Label","Collective","Wear","House","Co"]
-},
-cafe:{
-roots:["Bean","Roast","Brew","Mocha","Cup","Espresso"],
-brand:["House","Roastery","Corner","Cafe","Co"]
-}
+
+/* ================= Niche library =================
+   Each niche: keywords that detect it, roots (words to build names from), ends (suffix words), type (for descriptive names). */
+var NICHES={
+	seo:{label:'SEO & marketing',kw:['seo','marketing','agency','ads','advertising','ranking','google','search','branding','social media','digital','ppc','content','leads'],roots:['Rank','Search','Reach','Crawl','Index','Organic','Signal','Growth','Visibility','Traffic','Click','Funnel','Lead','Spark'],ends:['Pilot','Forge','Labs','Works','Studio','Peak','Axis','Point','Lift','Engine'],type:['Agency','Digital','Marketing','Media']},
+	saas:{label:'software & SaaS',kw:['saas','software','app','mobile app','platform','tech','api','cloud','automation','ai','developer','it services','web app','invoices','invoicing'],roots:['Cloud','Logic','Sync','Stack','Scale','Flow','Core','Launch','Orbit','Nova','Byte','Pixel','Loop','Node'],ends:['OS','Labs','Base','Hub','Suite','Stack','Kit','Deck','ly','ify'],type:['Technologies','Labs','Systems','Software']},
+	fashion:{label:'fashion brand',kw:['fashion','clothing','apparel','boutique','wear','streetwear','saree','kurta','dress','tshirt','t-shirt','garment','ethnic'],roots:['Aura','Mode','Silk','Thread','Loom','Velvet','Muse','Stitch','Drape','Hem','Seam','Linen','Chic','Vogue'],ends:['Studio','Label','Collective','Wear','House','Atelier','Closet','Row','Co'],type:['Studio','Label','Boutique','Clothing']},
+	cafe:{label:'café',kw:['cafe','café','coffee','tea','chai','espresso','roastery','brew'],roots:['Bean','Roast','Brew','Mocha','Cup','Crema','Kettle','Leaf','Steam','Aroma','Grind','Latte'],ends:['House','Roastery','Corner','Café','Co','Bar','Club','Room'],type:['Café','Coffee Co.','Roasters','Tea House']},
+	bakery:{label:'bakery',kw:['bakery','bake','bakes','baker','cake','cakes','bread','sourdough','pastry','patisserie','cookies','dessert','desserts','cupcake'],roots:['Crumb','Crust','Dough','Butter','Honey','Flour','Oven','Whisk','Knead','Sugar','Rise','Loaf','Frost','Sprinkle'],ends:['Bakehouse','Bakery','Kitchen','Oven','Patisserie','Co','Bakes','Table'],type:['Bakery','Bakehouse','Patisserie','Cake Studio']},
+	food:{label:'restaurant & food brand',kw:['restaurant','food','kitchen','cloud kitchen','dhaba','biryani','pizza','burger','catering','meal','snack','snacks','tiffin','sweets','street food','bistro','diner','grill'],roots:['Spice','Tadka','Masala','Saffron','Ember','Flame','Plate','Fork','Grill','Tandoor','Pepper','Harvest','Feast','Bowl'],ends:['Kitchen','Table','House','Bistro','Eatery','Co','Bites','Grill'],type:['Kitchen','Restaurant','Eatery','Foods']},
+	fitness:{label:'fitness brand',kw:['gym','fitness','workout','trainer','training','crossfit','strength','bodybuilding','sports','athletic','running','nutrition','supplement','protein'],roots:['Iron','Pulse','Core','Flex','Stride','Power','Grit','Lift','Motion','Pump','Sweat','Beast','Titan','Rep'],ends:['Fitness','Gym','Club','Lab','Athletics','Studio','Works','Nation'],type:['Fitness','Gym','Performance','Training']},
+	wellness:{label:'wellness & yoga',kw:['yoga','wellness','meditation','spa','mindfulness','ayurveda','holistic','therapy','retreat','pilates','mental health','healing'],roots:['Zen','Lotus','Prana','Calm','Bloom','Soul','Sattva','Breath','Aura','Serene','Balance','Still','Nirvana','Harmony'],ends:['Studio','Space','Collective','Retreat','Circle','Flow','Sanctuary','House'],type:['Yoga Studio','Wellness','Healing Centre','Retreat']},
+	beauty:{label:'beauty & skincare',kw:['beauty','salon','skincare','skin care','cosmetics','makeup','hair','nails','parlour','parlor','perfume','fragrance','bridal makeup'],roots:['Glow','Luxe','Blush','Velvet','Petal','Silk','Radiance','Dew','Rose','Gloss','Muse','Pearl','Bloom','Lush'],ends:['Studio','Beauty','Lab','Lounge','Bar','Co','Skin','Atelier'],type:['Beauty Studio','Salon','Skincare','Cosmetics']},
+	realestate:{label:'real estate',kw:['real estate','property','properties','realty','homes','housing','broker','apartment','villa','plots','builder','developer','rental'],roots:['Key','Nest','Haven','Keystone','Landmark','Hearth','Estate','Terrace','Harbor','Oak','Stone','Crest','Gate','Arch'],ends:['Realty','Homes','Properties','Estates','Living','Spaces','Group','Partners'],type:['Realty','Properties','Homes','Real Estate']},
+	travel:{label:'travel company',kw:['travel','tour','tours','trip','trips','holiday','holidays','vacation','trek','trekking','adventure','hotel','homestay','resort','backpacking'],roots:['Wander','Roam','Compass','Voyage','Horizon','Trail','Journey','Atlas','Nomad','Drift','Summit','Passport','Globe','Odyssey'],ends:['Trips','Travels','Tours','Escapes','Co','Journeys','Club','Expeditions'],type:['Travels','Tours','Holidays','Expeditions']},
+	education:{label:'education & coaching',kw:['education','school','coaching','tuition','course','courses','academy','learning','training institute','tutor','classes','edtech','teaching','exam','students'],roots:['Bright','Scholar','Mentor','Quest','Spark','Wisdom','Learn','Insight','Pathway','Genius','Mind','Brain','Ace','Sage'],ends:['Academy','Institute','Learning','Classes','Hub','School','Labs','Campus'],type:['Academy','Institute','Learning','Classes']},
+	finance:{label:'finance & accounting',kw:['finance','financial','accounting','accountant','tax','taxes','ca firm','audit','bookkeeping','investment','wealth','insurance','loan','fintech','payroll','gst'],roots:['Ledger','Capital','Summit','Trust','Vault','Crest','Balance','Anchor','Sterling','Mint','Harbor','Keystone','Prime','Clear'],ends:['Advisors','Capital','Partners','Finance','Wealth','Associates','Group','Consulting'],type:['Advisors','Accounting','Financial Services','Tax Consultants']},
+	legal:{label:'law firm',kw:['legal','law','lawyer','lawyers','attorney','advocate','solicitor','litigation','notary','compliance'],roots:['Justice','Verity','Lex','Shield','Pillar','Charter','Crest','Sterling','Summit','Oak','Beacon','Accord','Tenet','Counsel'],ends:['Law','Legal','Associates','Partners','Chambers','Counsel','& Co','Group'],type:['Law Associates','Legal','Advocates','Law Chambers']},
+	health:{label:'healthcare clinic',kw:['clinic','hospital','doctor','medical','health','healthcare','dental','dentist','physio','physiotherapy','diagnostic','pharmacy','nursing','eye clinic','skin clinic','ivf','implants','braces'],roots:['Care','Vital','Cura','Heal','Medi','Life','Pulse','Well','Arogya','Nova','Smile','Bright','Trust','Kind'],ends:['Clinic','Care','Health','Medical','Hospital','Centre','Plus','Wellness'],type:['Clinic','Healthcare','Medical Centre','Hospital']},
+	pets:{label:'pet business',kw:['pet','pets','dog','dogs','cat','cats','grooming','veterinary','vet','puppy','kennel','pet food'],roots:['Paw','Wag','Tail','Whisker','Purr','Bark','Furry','Pup','Snout','Fetch','Buddy','Hound','Kitty','Pawsh'],ends:['Pals','Club','Co','Care','Spa','Haven','Pantry','Planet'],type:['Pet Care','Pet Spa','Pet Store','Pets']},
+	kids:{label:'kids brand',kw:['kids','kid','baby','babies','toys','toy','children','preschool','daycare','playschool','montessori','infant','nursery'],roots:['Tiny','Little','Giggle','Sprout','Bubble','Cub','Doodle','Sunny','Twinkle','Pebble','Peek','Wonder','Nest','Bunny'],ends:['Tots','Kids','Club','Land','Nest','Co','World','Box'],type:['Kids','Play School','Toys','Baby Store']},
+	home:{label:'home & interiors',kw:['interior','interiors','furniture','home decor','interior design','architecture','architect','kitchen design','modular kitchen','lighting','furnishing','carpets','rugs'],roots:['Nest','Hearth','Oak','Loft','Nook','Haven','Linen','Terra','Stone','Timber','Ember','Arch','Dwell','Maple'],ends:['Studio','Interiors','Living','Home','Design','Works','Spaces','House'],type:['Interiors','Design Studio','Furniture','Home Decor']},
+	construction:{label:'construction company',kw:['construction','contractor','civil','infrastructure','renovation','plumbing','electrical','roofing','cement','steel','engineering'],roots:['Stone','Steel','Summit','Pillar','Bedrock','Iron','Granite','Crest','Keystone','Beam','Forge','Anchor','Ridge','Titan'],ends:['Builders','Construction','Works','Infra','Group','Engineering','Projects','Build'],type:['Builders','Constructions','Infra','Engineering']},
+	manufacturing:{label:'manufacturing company',kw:['manufacturing','manufacturer','factory','industrial','industries','screws','screw','fasteners','bolts','hardware','machinery','tools','packaging','plastic','metal','components','exports','exporter'],roots:['Forge','Steel','Titan','Bolt','Axis','Torque','Precision','Anchor','Iron','Alloy','Summit','Core','Vertex','Rivet'],ends:['Industries','Works','Manufacturing','Engineering','Tech','Corp','Group','Fasteners'],type:['Industries','Manufacturing','Engineering Works','Exports']},
+	photo:{label:'photography & media',kw:['photography','photographer','photo','photos','video','videography','film','films','wedding photography','content creator','video production','photoshoot'],roots:['Frame','Lens','Shutter','Focus','Pixel','Aperture','Glow','Reel','Snap','Prism','Candid','Story','Light','Motion'],ends:['Studio','Films','Pictures','Media','Co','Works','Stories','Productions'],type:['Photography','Films','Studios','Productions']},
+	events:{label:'events & weddings',kw:['event','events','wedding','weddings','party','parties','event planner','wedding planner','decoration','celebration','birthday'],roots:['Vivah','Petal','Gala','Soiree','Confetti','Bliss','Mandap','Festive','Utsav','Spark','Glam','Joy','Ever','Charm'],ends:['Events','Weddings','Occasions','Co','Studio','Affairs','Celebrations','Planners'],type:['Events','Wedding Planners','Celebrations','Event Co.']},
+	ecommerce:{label:'online store',kw:['ecommerce','e-commerce','online store','retail','d2c','dropshipping','marketplace','shopify','online shop'],roots:['Cart','Basket','Parcel','Shelf','Bazaar','Mart','Haul','Picks','Loot','Market','Crate','Bundle','Box','Aisle'],ends:['Co','Store','Shop','Mart','Hub','Market','Direct','Club'],type:['Store','Shop','Mart','Online']},
+	jewelry:{label:'jewellery brand',kw:['jewelry','jewellery','jeweller','jeweler','gold','silver','diamond','diamonds','rings','earrings','necklace','ornaments'],roots:['Aurum','Gem','Pearl','Luxe','Opal','Kundan','Solitaire','Glimmer','Halo','Carat','Lustre','Regal','Ruby','Tara'],ends:['Jewels','Jewellers','Atelier','House','Co','Collection','Fine Jewellery','Gems'],type:['Jewellers','Jewels','Fine Jewellery','Diamonds']},
+	auto:{label:'automotive business',kw:['car','cars','auto','automobile','automotive','bike','bikes','garage','mechanic','service centre','detailing','ev','electric vehicle','tyres','dealership'],roots:['Drive','Gear','Torque','Rev','Motor','Piston','Turbo','Wheel','Axle','Velocity','Road','Nitro','Apex','Ride'],ends:['Motors','Auto','Garage','Works','Drive','Mobility','Co','Hub'],type:['Motors','Auto Care','Garage','Mobility']},
+	agri:{label:'agriculture & organic',kw:['agriculture','farm','farming','organic','agri','dairy','milk','vegetables','fruits','seeds','fertilizer','poultry','honey','millets','natural'],roots:['Harvest','Green','Field','Root','Soil','Meadow','Seed','Earth','Sprout','Grove','Kisan','Terra','Orchard','Pure'],ends:['Farms','Organics','Fields','Foods','Co','Harvest','Naturals','Agro'],type:['Farms','Organics','Agro','Naturals']},
+	logistics:{label:'logistics company',kw:['logistics','courier','delivery','shipping','transport','freight','cargo','warehouse','supply chain','packers','movers','trucking'],roots:['Swift','Route','Cargo','Transit','Relay','Dash','Haul','Arrow','Fleet','Link','Axis','Velocity','Bridge','Port'],ends:['Logistics','Express','Freight','Movers','Cargo','Link','Lines','Transport'],type:['Logistics','Express','Freight','Movers']},
+	consulting:{label:'consulting firm',kw:['consulting','consultant','consultancy','advisory','strategy','management','hr','recruitment','staffing','business coach','coach','coaching'],roots:['Summit','Insight','Apex','Compass','North','Catalyst','Pinnacle','Bridge','Clarity','Vantage','Keystone','Ascend','Elevate','Pivot'],ends:['Consulting','Advisory','Partners','Group','Strategy','Associates','Collective','Co'],type:['Consulting','Advisory','Partners','Consultants']},
+	gaming:{label:'gaming brand',kw:['gaming','game','games','esports','gamer','streaming','twitch','console'],roots:['Pixel','Quest','Arcade','Loot','Respawn','Level','Nitro','Vortex','Blaze','Glitch','Raid','Combo','Boss','Byte'],ends:['Games','Studios','Arena','Play','Labs','Zone','Guild','HQ'],type:['Games','Gaming','Esports','Studios']},
+	music:{label:'music brand',kw:['music','band','dj','audio','recording','sound','singing','instrument','guitar','piano','podcast'],roots:['Echo','Tempo','Rhythm','Chord','Melody','Beat','Tune','Harmony','Vinyl','Groove','Note','Sonic','Riff','Lyric'],ends:['Studios','Records','Sound','Audio','Music','Collective','Labs','House'],type:['Music','Studios','Records','Academy']},
+	cleaning:{label:'cleaning service',kw:['cleaning','cleaners','laundry','dry clean','housekeeping','pest control','sanitization','car wash','maid'],roots:['Sparkle','Fresh','Shine','Pure','Clean','Gleam','Crisp','Bright','Tidy','Spotless','Breeze','Bubble','Polish','Clear'],ends:['Clean','Care','Co','Pros','Services','Squad','Works','Hub'],type:['Cleaning Services','Laundry','Cleaners','Home Services']},
+	print:{label:'print & design',kw:['print','printing','printers','packaging design','signage','stickers','merch','merchandise','t-shirt printing','graphic design'],roots:['Ink','Press','Print','Pixel','Stamp','Canvas','Hue','Palette','Dot','Mark','Letter','Paper','Craft','Folio'],ends:['Press','Prints','Studio','Works','Co','Lab','House','Design'],type:['Printers','Print Studio','Design Studio','Press']},
+	crafts:{label:'handmade brand',kw:['handmade','crafts','craft','candles','candle','soap','soaps','pottery','ceramic','embroidery','resin','macrame','stationery','gift hampers','hampers'],roots:['Craft','Wick','Clay','Kiln','Ember','Maker','Hand','Thread','Loom','Glow','Knot','Hearth','Folk','Petal'],ends:['Co','Studio','Crafts','Works','Collective','House','Made','Atelier'],type:['Crafts','Studio','Handmade','Creations']}
 };
-const premiumWords=["Prime","Elite","Prestige","Maison","Royal","Aure","Elevate","Signature"];
-const modernWords=["Neo","Nova","Opti","Hyper","Pixel","Quantum","Smart","Shift"];
-const aiWords=["Neural","Cortex","Vector","AI","Logic","Intelli","Data","Vision"];
-function detectIndustry(text){
-text=text.toLowerCase();
-if(text.includes("seo")||text.includes("google")||text.includes("ranking")) return "seo";
-if(text.includes("saas")||text.includes("software")) return "saas";
-if(text.includes("fashion")||text.includes("clothing")) return "fashion";
-if(text.includes("cafe")||text.includes("coffee")) return "cafe";
-return "seo";
+
+/* Tone vocab: prefixes / words that shape the feel */
+var TONES={
+	Bold:{pre:['Titan','Iron','Apex','Peak','Summit','Thunder','Bold','Prime','Alpha','Rocket'],post:['Forge','Force','Works','Nation','Pro','X','Max','HQ']},
+	Luxury:{pre:['Maison','Aurum','Royal','Velvet','Regal','Opulent','Sterling','Ivory','Noir','Gilded'],post:['Atelier','House','Maison','Collection','Couture','& Co','Society','Reserve']},
+	Minimal:{pre:['Pure','Simple','Plain','Clear','One','True','Bare','Still','Muted','Neat'],post:['Co','Studio','Supply','Goods','Lab','Form','Line','Room']},
+	Techy:{pre:['Neo','Nova','Hyper','Quantum','Pixel','Byte','Smart','Vector','Cyber','Nexa'],post:['ly','ify','io','Labs','Stack','Hub','OS','AI']},
+	Friendly:{pre:['Happy','Bright','Sunny','Hello','Kind','Good','Warm','Little','Buddy','Cozy'],post:['Pal','Buddy','Nest','Corner','Club','Friends','Hut','Place']},
+	Playful:{pre:['Zippy','Bubbly','Wiggle','Giggle','Funky','Jolly','Peppy','Snappy','Zesty','Doodle'],post:['oo','ster','zy','Pop','Party','Bop','Box','Land']}
+};
+
+var STOP=new Set('a an the and or of for to in on at with by from my our your their is are be we i that this these those as it its into about over under help helping helps business company brand service services selling sell sells offering offer provide providing based online new best top local small startup startups who which people customers clients like also more most very using use make making get all any every etc india global'.split(' '));
+
+/* ================= helpers ================= */
+var rnd=Math.random;
+function pick(a){return a[Math.floor(rnd()*a.length)];}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(rnd()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function cap(w){return w?w.charAt(0).toUpperCase()+w.slice(1).toLowerCase():w;}
+function clean(s){return (s||'').trim();}
+function vowel(c){return /[aeiouy]/i.test(c);}
+
+/* join two word parts so the seam reads well: "Crumb"+"ly" -> "Crumbly", "Brew"+"io" -> "Brewio", "Rise"+"ify" -> "Risify" */
+var LOWER={ly:1,ify:1,io:1,ora:1,ista:1,ful:1,go:1,hq:1,oo:1,ster:1,zy:1,ia:1};
+function join(a,b){
+	if(!b) return a;
+	if(/\s/.test(b)) return a+' '+b;            /* "& Co", "Fine Jewellery" stay separate words */
+	if(/^[a-z]/.test(b)&&!LOWER[b]) b=cap(b);   /* whole words become CamelCase: TitanAlloy; true suffixes stay lowercase */
+	if(/^[a-z]/.test(b)){ /* lowercase suffix */
+		if(vowel(a.slice(-1))&&vowel(b.charAt(0))) a=a.slice(0,-1);
+		return a+b;
+	}
+	return a+b;
 }
-function pick(arr){
-return arr[Math.floor(Math.random()*arr.length)];
+/* portmanteau: first part of a + last part of b, joined at a vowel if possible */
+function blend(a,b){
+	a=a.toLowerCase();b=b.toLowerCase();
+	if(a===b||a.length<4||b.length<4) return null;
+	var opts=[];
+	/* true portmanteau: the two words share a letter where they overlap, e.g. "whisk"+"skill" -> "whiskill" */
+	for(var i=2;i<a.length-1;i++) for(var j=1;j<b.length-1;j++){
+		if(a.charAt(i)===b.charAt(j)){ var o=a.slice(0,i)+b.slice(j); if(o.length>=5&&o.length<=9&&o!==a&&o!==b) opts.push(o); }
+	}
+	opts=opts.filter(function(o){return o.length>=6;});
+	if(!opts.length) return null;
+	var out=pick(opts);
+	if(!pronounceable(out)) return null;
+	return cap(out);
 }
-function uniqueNames(builder){
-const set=new Set();
-while(set.size<50){
-set.add(builder());
+var BAD=/sex|ass|fuk|fuc|shit|dic|cum|poo|pee|nazi|rape|anal|tit|cock|porn|dumb|die|kill|slut|fag|piss|crap|boob|butt|nig|pus/;
+function pronounceable(w){
+	w=w.toLowerCase().replace(/[^a-z]/g,'');
+	if(BAD.test(w)) return false;
+	if(/[aeiouy]{3}/.test(w)) return false;           /* no "iiree" */
+	if(/[^aeiouy]{4}/.test(w)) return false;          /* no "rsch" clusters */
+	if(/[^aeiouy]{3}$/.test(w)||/^[^aeiouy]{3}/.test(w.replace(/^(str|spr|scr|thr|chr|shr|sch)/,'st'))) return false;
+	if(/(.)\1\1/.test(w)) return false;
+	return true;
 }
-return [...set];
+/* invented, pronounceable names seeded with the niche's sounds */
+var ONS=['b','br','c','cl','d','f','fl','g','gr','k','l','m','n','p','pr','r','s','st','t','tr','v','z','l','n','r','m'];
+var VOW=['a','e','i','o','u','a','o','ai','ea','io'];
+var ENDN=['a','o','ia','era','ora','ix','on','is','um','ly','iva','ara','ex','en','ari'];
+var ENDN2=['a','o','ia','era','ora','is','um','iva','ara','en','ari','ly','on','io'];
+var MIDC=['l','r','n','v','m','t','d','s','k'];
+function invented(seed){
+	var start;
+	if(seed){ /* keep the seed's opening sound, cut after its first vowel group */
+		var s=seed.toLowerCase().replace(/[^a-z]/g,''), m=s.match(/^[^aeiou]*[aeiou]+/);
+		start=m?m[0]:s.slice(0,2);
+		if(start.length>4) start=start.slice(0,4);
+	} else start=pick(ONS)+pick(VOW);
+	var n=start+(rnd()<0.55?pick(MIDC)+pick(['a','e','i','o']):'')+pick(MIDC)+pick(ENDN2);
+	n=n.replace(/([aeiou])\1+/g,'$1');
+	return n.length>=4&&n.length<=8&&pronounceable(n)?cap(n):null;
 }
-function generateNames(){
-const idea=document.getElementById("idea").value;
-const industryInput=document.getElementById("industry").value;
-const owner=document.getElementById("owner").value.trim();
-const location=document.getElementById("location").value.trim();
-const key=detectIndustry(idea+" "+industryInput);
-const dict=industries[key];
-generated.brandable=uniqueNames(()=>{
-return pick(dict.roots)+pick(dict.brand);
-});
-generated.premium=uniqueNames(()=>{
-return pick(premiumWords)+pick(dict.roots);
-});
-generated.modern=uniqueNames(()=>{
-return pick(modernWords)+pick(dict.roots);
-});
-generated.ai=uniqueNames(()=>{
-let base=pick(aiWords)+pick(dict.roots);
-if(location && Math.random()>.7) base+=location.replace(/\s/g,'');
-if(owner && Math.random()>.8) base=owner+pick(dict.roots);
-return base;
-});
-showCategory('brandable',document.querySelector('.tab'));
-document.getElementById("results").style.display="block";
-window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});
+/* shorten a keyword into a brandable stem: "sourdough" -> "Sourdo", "fitness" -> "Fit" */
+function stem(w){
+	w=w.toLowerCase();
+	var m={fitness:'Fit',photography:'Photo',education:'Edu',technology:'Tech',marketing:'Mark',organic:'Orga',jewellery:'Jewel',jewelry:'Jewel',interior:'Inter',wellness:'Well',beauty:'Beau',coffee:'Cofi',bakery:'Bake',travel:'Trav',fashion:'Fash',clinic:'Clin'};
+	if(m[w]) return m[w];
+	if(w.length<=5) return cap(w);
+	for(var i=4;i<w.length-1;i++){ if(vowel(w.charAt(i))&&!vowel(w.charAt(i+1))) return cap(w.slice(0,i+1)); }
+	return cap(w.slice(0,5));
 }
-function showCategory(cat,el){
-document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-el.classList.add('active');
-const wrap=document.getElementById("nameList");
-wrap.innerHTML="";
-generated[cat].forEach(name=>{
-const card=document.createElement("div");
-card.className="name-card";
-card.innerHTML=`<span>${name}</span><span class="copy">📋</span>`;
-card.onclick=()=>navigator.clipboard.writeText(name);
-wrap.appendChild(card);
-});
+
+/* ================= understanding the input ================= */
+function detect(text){
+	var t=' '+text.toLowerCase().replace(/[^a-z0-9&\-\s]/g,' ')+' ';
+	var scores=[];
+	Object.keys(NICHES).forEach(function(k){
+		var s=0;
+		NICHES[k].kw.forEach(function(kw){ if(t.indexOf(' '+kw+' ')>-1||t.indexOf(' '+kw+'s ')>-1) s+=kw.indexOf(' ')>-1?3:2; });
+		if(s) scores.push([k,s]);
+	});
+	scores.sort(function(a,b){return b[1]-a[1];});
+	return scores.map(function(s){return {k:s[0],s:s[1]};});
 }
+function keywords(text){
+	var words=text.toLowerCase().replace(/[^a-z\s\-]/g,' ').split(/[\s\-]+/).filter(function(w){return w.length>=3&&!STOP.has(w);});
+	var seen={},out=[];
+	words.forEach(function(w){ if(!seen[w]){seen[w]=1;out.push(w);} });
+	return out.slice(0,8);
+}
+
+/* ================= generation ================= */
+var state={all:[],cat:'all',short:[]};
+
+function build(){
+	var owner=clean(val('owner')).replace(/^(dr|mr|mrs|ms|miss|prof)\.?\s+/i,''), idea=clean(val('idea')), industry=clean(val('industry')), audience=clean(val('audience')), loc=clean(val('location')), pref=clean(val('pref')).toLowerCase();
+	var text=[idea,industry,audience].join(' ');
+	var tones=[].map.call(document.querySelectorAll('#tones .active'),function(p){return p.textContent.trim();});
+	if(!tones.length) tones=['Bold'];
+	var found=detect(industry+' '+idea);
+	var kws=keywords(industry+' '+idea).filter(function(w){ return !/^(agency|firm|shop|store)$/.test(w); });
+
+	/* build a vocabulary from the best matching niches + the user's own words */
+	var roots=[],ends=[],types=[];
+	found.slice(0,found.length>1&&found[1].s>=found[0].s?2:1).forEach(function(o,i){ var k=o.k; var n=NICHES[k]; roots=roots.concat(i?n.roots.slice(0,6):n.roots); ends=ends.concat(n.ends); types=types.concat(n.type); });
+	var catWords={}; found.forEach(function(o){ NICHES[o.k].kw.forEach(function(k){ k.split(' ').forEach(function(x){catWords[x]=1;}); }); });
+	var ADJ=/^(studio|clinic|company|services|service|shop|store|brand|agency|firm|center|centre|solutions|business|luxury|premium|custom|best|affordable|cheap|quality|professional|modern|traditional|working|based|various|different|european|indian|women|men|kids)$/;
+	var userRoots=kws.filter(function(w){ return w.length>=3&&w.length<=9&&!/ing$|ed$|ly$/.test(w)&&!catWords[w]&&!catWords[w.replace(/s$/,'')]&&!ADJ.test(w); }).map(cap);
+	roots=userRoots.slice(0,3).concat(roots);
+	if(!found.length){ /* unknown niche: rely on the user's own words + general-purpose endings */
+		roots=roots.concat(kws.filter(function(w){return !/ing$/.test(w)&&w.length<=9;}).map(cap));
+		ends=['Co','Studio','Works','Hub','House','Collective','Labs','Supply','Company','Craft'];
+		types=[userRoots[0]||'Company','Co.','Studio','Services'];
+	}
+	if(!roots.length){ roots=['Nova','Summit','Bright','Core']; }
+	var tp=[],tpost=[];
+	tones.forEach(function(t){ tp=tp.concat(TONES[t].pre); tpost=tpost.concat(TONES[t].post); });
+	var short=/short|minimal|one word|single/.test(pref)||tones.indexOf('Minimal')>-1;
+	var dotcom=/\.com|domain/.test(pref);
+	var premium=/premium|luxury|classy|elegant/.test(pref)||tones.indexOf('Luxury')>-1;
+	var city=loc&&!/^(global|worldwide|india|online)$/i.test(loc)?cap(loc.split(/[\s,\/]+/)[0]):'';
+	var ownerFirst=owner?cap(owner.split(/\s+/)[0]):'', ownerLast=owner&&owner.split(/\s+/).length>1?cap(owner.split(/\s+/).pop()):'';
+
+	var pool={}, list=[];
+	function add(name,cat){
+		if(!name) return;
+		name=name.replace(/\s+/g,' ').trim();
+		var key=name.toLowerCase().replace(/[^a-z0-9]/g,'');
+		if(key.length<4||pool[key]) return;
+		if(short&&name.replace(/[^A-Za-z]/g,'').length>11) return;
+		if(dotcom&&cat!=='Descriptive'&&cat!=='Personal'&&/\s/.test(name)) return;
+		if(/(.)\1\1/i.test(key)) return;
+		var ws=name.replace(/([a-z])([A-Z])/g,'$1 $2').toLowerCase().split(/[\s&']+/).filter(Boolean).map(function(w){return w.replace(/s$/,'').slice(0,4);});
+		if(new Set(ws).size<ws.length) return;                         /* "Events Events", "Drone Drone" */
+		if(!/\s/.test(name)&&!pronounceable(name)) return;
+		if(BAD.test(key)) return;
+		pool[key]=1; list.push({name:name,cat:cat});
+	}
+	var guard=0;
+	function fill(cat,count,fn){ var n=0,g=0; while(n<count&&g<400){ g++; var before=list.length; add(fn(),cat); if(list.length>before) n++; } }
+
+	/* Brandable: compounds, blends, suffixes */
+	fill('Brandable',11,function(){
+		var r=rnd();
+		if(r<0.45) return join(pick(roots),pick(ends.filter(function(e){return !/\s/.test(e)&&e.length<=8;}))||'Co');
+		if(r<0.75) return blend(pick(roots),pick(roots.concat(ends)));
+		return join(pick(roots),pick(['ly','ify','io','ora','ista','hive','nest','loop','wise','ful']));
+	});
+	/* Descriptive: clear, SEO-friendly names that say what you do */
+	fill('Descriptive',8,function(){
+		var r=rnd(), t=pick(types);
+		if(r<0.35&&city) return city+' '+pick(roots)+' '+t;
+		if(r<0.7) return pick(tp.concat(roots))+' '+pick(roots)+' '+t;
+		return 'The '+pick(roots)+' '+t;
+	});
+	/* Premium */
+	fill('Premium',7,function(){
+		var r=rnd(), a=pick(roots), l=pick(TONES.Luxury.pre);
+		if(r<0.25) return 'Maison '+a;
+		if(r<0.45) return 'House of '+a;
+		if(r<0.65) return a+' & '+pick(['Oak','Co','Stone','Gold','Ivory','Sage','Grey']);
+		if(r<0.85) return l+' '+a;
+		return 'The '+a+' '+pick(['Society','Atelier','Collection','Reserve']);
+	});
+	/* Modern / techy */
+	fill('Modern',7,function(){
+		var r=rnd(), a=pick(roots);
+		if(r<0.35) return a.length<=7?join(pick(tp.length?tp:TONES.Techy.pre),a):null;
+		if(r<0.6) return join(a,pick(['ly','ify','io','hq','go','hub','lab']));
+		return a.length<=7?pick(TONES.Techy.pre)+a:null;
+	});
+	/* remove anything hard to pronounce */
+	list=list.filter(function(n){ var k=n.name.toLowerCase(); return !/[^aeiouy\s&]{5,}/.test(k.replace(/[^a-z\s&]/g,'')); });
+	pool={}; list.forEach(function(n){pool[n.name.toLowerCase().replace(/[^a-z0-9]/g,'')]=1;});
+	/* Invented */
+	fill('Invented',6,function(){ return invented(rnd()<0.6?pick(roots):null); });
+	/* Tone-led */
+	fill('Tone',5,function(){ var a=pick(roots); if(a.length>7) return null; return rnd()<0.5?join(pick(tp),a):join(a,pick(tpost)); });
+	/* Personal & local */
+	if(ownerFirst||city){
+		fill('Personal',6,function(){
+			var r=rnd(), t=pick(types);
+			if(ownerFirst&&r<0.3) return ownerFirst+"'s "+pick(roots)+' '+t;
+			if(ownerLast&&r<0.45) return ownerLast+' & Co';
+			if(ownerFirst&&r<0.6) return join(stem(ownerFirst),pick(ends.filter(function(e){return !/\s/.test(e);}))||'Co');
+			if(city) return rnd()<0.5?city+' '+pick(roots)+' Co.':pick(roots)+' '+city;
+			return ownerFirst+' '+t;
+		});
+	}
+	/* top up to 50 with the best-performing techniques */
+	fill('Brandable',50-list.length,function(){ return rnd()<0.5?join(pick(roots),pick(ends.concat(tpost).filter(function(e){return !/\s/.test(e);}))):blend(pick(roots),pick(roots)); });
+	fill('Invented',50-list.length,function(){ return invented(pick(roots)); });
+
+	var label=found.length?NICHES[found[0].k].label:(kws.length?kws.slice(0,2).join(' '):'your business');
+	return {names:list.slice(0,50),label:label};
+}
+
+/* ================= rendering ================= */
+var CATS=[['all','All'],['Brandable','Brandable'],['Descriptive','Descriptive'],['Premium','Premium'],['Modern','Modern'],['Invented','Invented'],['Tone','Tone match'],['Personal','Personal & Local']];
+var GRADS=[['#22C58B','#0f8a63'],['#14332B','#2c6b59'],['#2DD4BF','#0e9384'],['#34D399','#1e8e6a'],['#0F5132','#22C58B'],['#1d4d40','#34D399']];
+
+function hash(s){var h=0;for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|0;return Math.abs(h);}
+function initials(n){var w=n.replace(/^(The|House of|Maison)\s+/i,'').split(/[\s&]+/).filter(Boolean);var caps=(w[0]||'').match(/[A-Z]/g)||[];if(w.length>1)return (w[0][0]+w[1][0]).toUpperCase();if(caps.length>1)return caps[0]+caps[1];return (w[0]||'?').charAt(0).toUpperCase();}
+function stars(n){var k=n.replace(/[^a-z]/gi,'').length,s=5;if(k>8)s--;if(k>11)s--;if(k>15)s--;if(/\s/.test(n))s=Math.min(s,4);var h='';for(var i=0;i<5;i++)h+=i<s?'★':'<i>★</i>';return h;}
+function domainFor(n){return n.toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]/g,'')+'.com';}
+/* two-tone name: second word / second CamelCase part in green */
+function styled(n){
+	var esc=function(s){return s.replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
+	var parts=n.split(' ');
+	if(parts.length>1) return esc(parts[0])+' <span class="b">'+esc(parts.slice(1).join(' '))+'</span>';
+	var m=n.match(/^([A-Z][a-z]+)([A-Z].*)$/);
+	if(m) return esc(m[1])+'<span class="b">'+esc(m[2])+'</span>';
+	return esc(n);
+}
+var ICON={copy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>',
+	heart:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.1C.9 8.6 2.9 5 6.5 5c2 0 3.4 1.1 4.2 2.3h2.6C14.1 6.1 15.5 5 17.5 5c3.6 0 5.6 3.6 4.1 6.9C19.5 16.4 12 21 12 21z"/></svg>'};
+
+function render(){
+	var tabs=document.getElementById('tabs'), counts={all:state.all.length};
+	state.all.forEach(function(n){counts[n.cat]=(counts[n.cat]||0)+1;});
+	tabs.innerHTML='';
+	CATS.forEach(function(c){
+		if(!counts[c[0]]) return;
+		var b=document.createElement('button');
+		b.type='button'; b.className='tab'+(state.cat===c[0]?' active':'');
+		b.innerHTML=c[1]+' <em>'+counts[c[0]]+'</em>';
+		b.onclick=function(){state.cat=c[0];render();};
+		tabs.appendChild(b);
+	});
+	var wrap=document.getElementById('nameList'); wrap.innerHTML='';
+	var shown=state.all.filter(function(n){return state.cat==='all'||n.cat===state.cat;});
+	shown.forEach(function(n,i){
+		var g=GRADS[hash(n.name)%GRADS.length], dom=domainFor(n.name), liked=state.short.indexOf(n.name)>-1;
+		var card=document.createElement('div');
+		card.className='card'; card.style.animationDelay=Math.min(i*18,500)+'ms';
+		card.innerHTML='<div class="logo" style="background:linear-gradient(135deg,'+g[0]+','+g[1]+')">'+initials(n.name)+'</div>'+
+			'<div class="info"><div class="nm">'+styled(n.name)+'</div>'+
+			'<div class="meta"><span class="tag">'+(n.cat==='Tone'?'Tone match':n.cat==='Personal'?'Personal':n.cat)+'</span><span class="stars" title="Memorability (shorter and simpler scores higher)">'+stars(n.name)+'</span></div>'+
+			'<div class="domain">🌐 '+dom+' · <a href="https://www.namecheap.com/domains/registration/results/?domain='+encodeURIComponent(dom)+'" target="_blank" rel="noopener nofollow">Check</a></div></div>'+
+			'<div class="acts"><button class="icon" type="button" title="Copy name">'+ICON.copy+'</button><button class="icon'+(liked?' on':'')+'" type="button" title="Add to shortlist">'+ICON.heart+'</button></div>';
+		var btns=card.querySelectorAll('.icon');
+		btns[0].onclick=function(){copy(n.name,'Copied "'+n.name+'"');};
+		btns[1].onclick=function(){toggleShort(n.name);btns[1].classList.toggle('on');};
+		wrap.appendChild(card);
+	});
+	if(!shown.length) wrap.innerHTML='<p class="empty">No names in this group yet. Try another tone.</p>';
+	renderShort();
+}
+function renderShort(){
+	var box=document.getElementById('shortlist'), chips=document.getElementById('chips');
+	box.style.display=state.short.length?'block':'none'; chips.innerHTML='';
+	state.short.forEach(function(n){
+		var c=document.createElement('span'); c.className='chip'; c.textContent=n;
+		var x=document.createElement('button'); x.type='button'; x.textContent='×'; x.title='Remove';
+		x.onclick=function(){toggleShort(n);render();};
+		c.appendChild(x); chips.appendChild(c);
+	});
+}
+function toggleShort(n){var i=state.short.indexOf(n);if(i>-1)state.short.splice(i,1);else state.short.push(n);renderShort();}
+
+/* ================= actions ================= */
+function val(id){return document.getElementById(id).value;}
+function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(function(){t.classList.remove('show');},1600);}
+function copy(text,msg){
+	var done=function(){toast(msg||'Copied');};
+	if(navigator.clipboard&&window.isSecureContext) navigator.clipboard.writeText(text).then(done,fallback); else fallback();
+	function fallback(){var ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}ta.remove();done();}
+}
+function generate(){
+	var err=document.getElementById('err');
+	if(!clean(val('idea'))&&!clean(val('industry'))){err.style.display='block';document.getElementById('idea').focus();return;}
+	err.style.display='none';
+	var r=build();
+	state.all=r.names; state.cat='all';
+	document.getElementById('nicheLabel').textContent=r.label;
+	document.getElementById('results').style.display='block';
+	render();
+	document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+}
+document.getElementById('genBtn').onclick=generate;
+document.getElementById('moreBtn').onclick=generate;
+document.getElementById('copyAllBtn').onclick=function(){copy(state.all.map(function(n){return n.name;}).join('\n'),'Copied all '+state.all.length+' names');};
+document.getElementById('copyShort').onclick=function(){copy(state.short.join('\n'),'Shortlist copied');};
+})();
 </script>
 </body>
 </html>
